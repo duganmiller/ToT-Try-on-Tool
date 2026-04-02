@@ -1,0 +1,257 @@
+
+<style>
+  :root { --jacket-color: #1a2744; --lining-color: #8B1A1A; --button-color: #c8a96e; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: var(--font-sans, sans-serif); }
+  .wrap { display: flex; gap: 24px; padding: 1rem 0; align-items: flex-start; flex-wrap: wrap; }
+  .preview { flex: 1; min-width: 240px; display: flex; justify-content: center; }
+  .controls { flex: 1; min-width: 260px; display: flex; flex-direction: column; gap: 16px; }
+  .ctrl-section { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 14px 16px; }
+  .ctrl-label { font-size: 11px; font-weight: 500; color: var(--color-text-secondary); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 10px; }
+  .style-pills { display: flex; gap: 8px; flex-wrap: wrap; }
+  .pill { padding: 6px 14px; border: 0.5px solid var(--color-border-secondary); border-radius: 20px; font-size: 13px; cursor: pointer; background: transparent; color: var(--color-text-primary); transition: all 0.15s; }
+  .pill.active { background: var(--color-text-primary); color: var(--color-background-primary); border-color: var(--color-text-primary); }
+  .swatches { display: flex; gap: 8px; flex-wrap: wrap; }
+  .swatch { width: 32px; height: 32px; border-radius: 50%; cursor: pointer; border: 2px solid transparent; transition: all 0.15s; }
+  .swatch.active { border-color: var(--color-text-primary); transform: scale(1.15); }
+  .lapel-row { display: flex; gap: 8px; }
+  .lapel-opt { flex: 1; text-align: center; padding: 8px 4px; border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-md); font-size: 12px; cursor: pointer; color: var(--color-text-secondary); }
+  .lapel-opt.active { border-color: var(--color-text-primary); color: var(--color-text-primary); font-weight: 500; }
+  .cta { background: var(--color-text-primary); color: var(--color-background-primary); border: none; border-radius: var(--border-radius-md); padding: 12px 20px; font-size: 14px; font-weight: 500; cursor: pointer; width: 100%; margin-top: 4px; }
+</style>
+
+<div class="wrap">
+  <div class="preview">
+    <svg id="jacket-svg" viewBox="0 0 280 420" width="240" height="360" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <pattern id="herringbone" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+          <rect width="8" height="8" fill="var(--jacket-color)"/>
+          <line x1="0" y1="0" x2="0" y2="8" stroke="rgba(255,255,255,0.06)" stroke-width="2"/>
+          <line x1="4" y1="0" x2="4" y2="8" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+        </pattern>
+        <pattern id="tweed" width="6" height="6" patternUnits="userSpaceOnUse">
+          <rect width="6" height="6" fill="var(--jacket-color)"/>
+          <circle cx="1" cy="1" r="0.7" fill="rgba(255,255,255,0.07)"/>
+          <circle cx="4" cy="4" r="0.7" fill="rgba(255,255,255,0.07)"/>
+          <circle cx="4" cy="1" r="0.5" fill="rgba(0,0,0,0.1)"/>
+          <circle cx="1" cy="4" r="0.5" fill="rgba(0,0,0,0.1)"/>
+        </pattern>
+        <pattern id="plain" width="4" height="4" patternUnits="userSpaceOnUse">
+          <rect width="4" height="4" fill="var(--jacket-color)"/>
+        </pattern>
+        <pattern id="pinstripe" width="10" height="10" patternUnits="userSpaceOnUse">
+          <rect width="10" height="10" fill="var(--jacket-color)"/>
+          <line x1="5" y1="0" x2="5" y2="10" stroke="rgba(255,255,255,0.15)" stroke-width="0.8"/>
+        </pattern>
+      </defs>
+
+      <!-- Body -->
+      <path id="body-left" d="M60 155 L60 360 L140 360 L140 155 L105 140 Z" fill="url(#plain)" stroke="rgba(0,0,0,0.2)" stroke-width="0.5"/>
+      <path id="body-right" d="M220 155 L220 360 L140 360 L140 155 L175 140 Z" fill="url(#plain)" stroke="rgba(0,0,0,0.2)" stroke-width="0.5"/>
+
+      <!-- Shoulder Left -->
+      <path d="M60 155 L30 145 L25 120 L70 110 L105 140 Z" fill="url(#plain)" stroke="rgba(0,0,0,0.2)" stroke-width="0.5"/>
+      <!-- Shoulder Right -->
+      <path d="M220 155 L250 145 L255 120 L210 110 L175 140 Z" fill="url(#plain)" stroke="rgba(0,0,0,0.2)" stroke-width="0.5"/>
+
+      <!-- Sleeve Left -->
+      <path d="M30 145 L10 260 L35 265 L60 180 L60 155 Z" fill="url(#plain)" stroke="rgba(0,0,0,0.2)" stroke-width="0.5"/>
+      <!-- Sleeve Right -->
+      <path d="M250 145 L270 260 L245 265 L220 180 L220 155 Z" fill="url(#plain)" stroke="rgba(0,0,0,0.2)" stroke-width="0.5"/>
+
+      <!-- Lining peek at bottom -->
+      <path d="M100 355 L140 355 L140 360 L100 360 Z" fill="var(--lining-color)" opacity="0.7"/>
+      <path d="M180 355 L140 355 L140 360 L180 360 Z" fill="var(--lining-color)" opacity="0.7"/>
+
+      <!-- Lapel Left (notch default) -->
+      <path id="lapel-left" d="M105 140 L140 170 L140 210 L90 175 L75 140 Z" fill="url(#plain)" stroke="rgba(0,0,0,0.25)" stroke-width="0.5"/>
+      <!-- Lapel Right -->
+      <path id="lapel-right" d="M175 140 L140 170 L140 210 L190 175 L205 140 Z" fill="url(#plain)" stroke="rgba(0,0,0,0.25)" stroke-width="0.5"/>
+
+      <!-- Collar -->
+      <path d="M100 130 L140 155 L180 130 L175 110 L140 125 L105 110 Z" fill="url(#plain)" stroke="rgba(0,0,0,0.2)" stroke-width="0.5"/>
+
+      <!-- Breast pocket -->
+      <rect x="155" y="185" width="28" height="14" rx="1" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="0.8"/>
+      <rect x="157" y="183" width="24" height="5" rx="1" fill="rgba(255,255,255,0.12)"/>
+
+      <!-- Buttons (single breasted default) -->
+      <g id="buttons-single">
+        <circle cx="140" cy="240" r="5" fill="var(--button-color)" stroke="rgba(0,0,0,0.3)" stroke-width="0.5"/>
+        <circle cx="140" cy="265" r="5" fill="var(--button-color)" stroke="rgba(0,0,0,0.3)" stroke-width="0.5"/>
+        <circle cx="140" cy="290" r="5" fill="var(--button-color)" stroke="rgba(0,0,0,0.3)" stroke-width="0.5"/>
+      </g>
+      <g id="buttons-double" visibility="hidden">
+        <circle cx="125" cy="235" r="4.5" fill="var(--button-color)" stroke="rgba(0,0,0,0.3)" stroke-width="0.5"/>
+        <circle cx="125" cy="258" r="4.5" fill="var(--button-color)" stroke="rgba(0,0,0,0.3)" stroke-width="0.5"/>
+        <circle cx="125" cy="281" r="4.5" fill="var(--button-color)" stroke="rgba(0,0,0,0.3)" stroke-width="0.5"/>
+        <circle cx="155" cy="235" r="4.5" fill="var(--button-color)" stroke="rgba(0,0,0,0.3)" stroke-width="0.5"/>
+        <circle cx="155" cy="258" r="4.5" fill="var(--button-color)" stroke="rgba(0,0,0,0.3)" stroke-width="0.5"/>
+        <circle cx="155" cy="281" r="4.5" fill="var(--button-color)" stroke="rgba(0,0,0,0.3)" stroke-width="0.5"/>
+      </g>
+
+      <!-- Sleeve buttons -->
+      <circle cx="23" cy="260" r="3" fill="var(--button-color)" stroke="rgba(0,0,0,0.3)" stroke-width="0.5"/>
+      <circle cx="29" cy="263" r="3" fill="var(--button-color)" stroke="rgba(0,0,0,0.3)" stroke-width="0.5"/>
+      <circle cx="257" cy="260" r="3" fill="var(--button-color)" stroke="rgba(0,0,0,0.3)" stroke-width="0.5"/>
+      <circle cx="251" cy="263" r="3" fill="var(--button-color)" stroke="rgba(0,0,0,0.3)" stroke-width="0.5"/>
+
+      <!-- Front seam single -->
+      <line id="seam-single" x1="140" y1="210" x2="140" y2="360" stroke="rgba(0,0,0,0.15)" stroke-width="0.8"/>
+      <!-- Front seam double (two rows) -->
+      <g id="seam-double" visibility="hidden">
+        <line x1="133" y1="210" x2="133" y2="360" stroke="rgba(0,0,0,0.15)" stroke-width="0.8"/>
+        <line x1="147" y1="210" x2="147" y2="360" stroke="rgba(0,0,0,0.15)" stroke-width="0.8"/>
+      </g>
+    </svg>
+  </div>
+
+  <div class="controls">
+    <div class="ctrl-section">
+      <div class="ctrl-label">Breasting</div>
+      <div class="style-pills">
+        <button class="pill active" onclick="setBreasting('single', this)">Single breasted</button>
+        <button class="pill" onclick="setBreasting('double', this)">Double breasted</button>
+      </div>
+    </div>
+
+    <div class="ctrl-section">
+      <div class="ctrl-label">Lapel style</div>
+      <div class="lapel-row">
+        <div class="lapel-opt active" onclick="setLapel('notch', this)">Notch</div>
+        <div class="lapel-opt" onclick="setLapel('peak', this)">Peak</div>
+        <div class="lapel-opt" onclick="setLapel('shawl', this)">Shawl</div>
+      </div>
+    </div>
+
+    <div class="ctrl-section">
+      <div class="ctrl-label">Fabric</div>
+      <div class="style-pills">
+        <button class="pill active" onclick="setFabric('plain', this)">Plain</button>
+        <button class="pill" onclick="setFabric('herringbone', this)">Herringbone</button>
+        <button class="pill" onclick="setFabric('pinstripe', this)">Pinstripe</button>
+        <button class="pill" onclick="setFabric('tweed', this)">Tweed</button>
+      </div>
+    </div>
+
+    <div class="ctrl-section">
+      <div class="ctrl-label">Colour</div>
+      <div class="swatches">
+        <div class="swatch active" style="background:#1a2744" onclick="setColor('#1a2744', this)" title="Navy"></div>
+        <div class="swatch" style="background:#2c2c2c" onclick="setColor('#2c2c2c', this)" title="Charcoal"></div>
+        <div class="swatch" style="background:#6b6b6b" onclick="setColor('#6b6b6b', this)" title="Mid grey"></div>
+        <div class="swatch" style="background:#3d2b1f" onclick="setColor('#3d2b1f', this)" title="Brown"></div>
+        <div class="swatch" style="background:#4a5240" onclick="setColor('#4a5240', this)" title="Forest"></div>
+        <div class="swatch" style="background:#1a3a2a" onclick="setColor('#1a3a2a', this)" title="Bottle green"></div>
+        <div class="swatch" style="background:#8B1A1A" onclick="setColor('#8B1A1A', this)" title="Burgundy"></div>
+        <div class="swatch" style="background:#c4a882" onclick="setColor('#c4a882', this)" title="Camel"></div>
+      </div>
+    </div>
+
+    <div class="ctrl-section">
+      <div class="ctrl-label">Lining colour</div>
+      <div class="swatches">
+        <div class="swatch active" style="background:#8B1A1A" onclick="setLining('#8B1A1A', this)"></div>
+        <div class="swatch" style="background:#1a2744" onclick="setLining('#1a2744', this)"></div>
+        <div class="swatch" style="background:#c4a882" onclick="setLining('#c4a882', this)"></div>
+        <div class="swatch" style="background:#2c2c2c" onclick="setLining('#2c2c2c', this)"></div>
+        <div class="swatch" style="background:#7a3b6e" onclick="setLining('#7a3b6e', this)"></div>
+      </div>
+    </div>
+
+    <button class="cta" onclick="sendPrompt('I want to order this jacket: ' + getConfig())">Request this jacket from Tailor on Tap ↗</button>
+  </div>
+</div>
+
+<script>
+  let currentFabric = 'plain';
+  let currentColor = '#1a2744';
+  let currentLining = '#8B1A1A';
+  let currentBreasting = 'single';
+  let currentLapel = 'notch';
+
+  function getConfig() {
+    return `${currentBreasting}-breasted, ${currentLapel} lapel, ${currentFabric} fabric in ${currentColor}`;
+  }
+
+  function setColor(hex, el) {
+    currentColor = hex;
+    document.documentElement.style.setProperty('--jacket-color', hex);
+    document.querySelectorAll('.swatch').forEach(s => {
+      if (s.onclick && s.onclick.toString().includes('setColor')) s.classList.remove('active');
+    });
+    el.classList.add('active');
+    applyFabric(currentFabric);
+  }
+
+  function setLining(hex, el) {
+    currentLining = hex;
+    document.documentElement.style.setProperty('--lining-color', hex);
+    document.querySelectorAll('.swatch').forEach(s => {
+      if (s.onclick && s.onclick.toString().includes('setLining')) s.classList.remove('active');
+    });
+    el.classList.add('active');
+  }
+
+  function setFabric(type, el) {
+    currentFabric = type;
+    applyFabric(type);
+    document.querySelectorAll('.ctrl-section').forEach(sec => {
+      if (sec.querySelector('.ctrl-label')?.textContent === 'Fabric') {
+        sec.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
+      }
+    });
+    el.classList.add('active');
+  }
+
+  function applyFabric(type) {
+    const fills = ['body-left','body-right','lapel-left','lapel-right'];
+    fills.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.setAttribute('fill', `url(#${type})`);
+    });
+    document.querySelectorAll('[d]').forEach(p => {
+      if (!['lapel-left','lapel-right','body-left','body-right'].includes(p.id) && p.tagName === 'path') {
+        if (p.getAttribute('fill') && p.getAttribute('fill').startsWith('url(#')) {
+          p.setAttribute('fill', `url(#${type})`);
+        }
+      }
+    });
+    document.querySelectorAll('path[fill^="url(#"]').forEach(p => {
+      if (!p.getAttribute('fill').includes('lining')) p.setAttribute('fill', `url(#${type})`);
+    });
+  }
+
+  function setBreasting(type, el) {
+    currentBreasting = type;
+    document.getElementById('buttons-single').setAttribute('visibility', type === 'single' ? 'visible' : 'hidden');
+    document.getElementById('buttons-double').setAttribute('visibility', type === 'double' ? 'visible' : 'hidden');
+    document.getElementById('seam-single').setAttribute('visibility', type === 'single' ? 'visible' : 'hidden');
+    document.getElementById('seam-double').setAttribute('visibility', type === 'double' ? 'visible' : 'hidden');
+    if (type === 'double') {
+      document.getElementById('lapel-left').setAttribute('d', 'M105 140 L140 165 L140 210 L82 180 L72 142 Z');
+      document.getElementById('lapel-right').setAttribute('d', 'M175 140 L140 165 L140 210 L198 180 L208 142 Z');
+    } else {
+      document.getElementById('lapel-left').setAttribute('d', 'M105 140 L140 170 L140 210 L90 175 L75 140 Z');
+      document.getElementById('lapel-right').setAttribute('d', 'M175 140 L140 170 L140 210 L190 175 L205 140 Z');
+    }
+    el.parentElement.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
+    el.classList.add('active');
+  }
+
+  function setLapel(type, el) {
+    currentLapel = type;
+    if (type === 'peak') {
+      document.getElementById('lapel-left').setAttribute('d', 'M105 140 L140 175 L140 215 L75 165 L68 132 L95 145 Z');
+      document.getElementById('lapel-right').setAttribute('d', 'M175 140 L140 175 L140 215 L205 165 L212 132 L185 145 Z');
+    } else if (type === 'shawl') {
+      document.getElementById('lapel-left').setAttribute('d', 'M105 140 L140 175 L140 215 L88 185 Q72 158 80 138 Z');
+      document.getElementById('lapel-right').setAttribute('d', 'M175 140 L140 175 L140 215 L192 185 Q208 158 200 138 Z');
+    } else {
+      document.getElementById('lapel-left').setAttribute('d', 'M105 140 L140 170 L140 210 L90 175 L75 140 Z');
+      document.getElementById('lapel-right').setAttribute('d', 'M175 140 L140 170 L140 210 L190 175 L205 140 Z');
+    }
+    el.parentElement.querySelectorAll('.lapel-opt').forEach(p => p.classList.remove('active'));
+    el.classList.add('active');
+  }
+</script>
